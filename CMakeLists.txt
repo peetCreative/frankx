@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.11)
 
 project(frankx VERSION 0.1.0 LANGUAGES CXX)
 
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -pthread")
 # use, i.e. don't skip the full RPATH for the build tree
 set(CMAKE_SKIP_BUILD_RPATH FALSE)
 
@@ -77,7 +78,7 @@ endif()
 
 
 if(BUILD_EXAMPLES)
-  foreach(example IN ITEMS linear grasping)
+  foreach(example IN ITEMS linear grasping waypoints)
     add_executable(${example} "examples/${example}.cpp")
     target_link_libraries(${example} PRIVATE frankx)
   endforeach()
