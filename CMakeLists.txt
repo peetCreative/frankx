@@ -78,7 +78,7 @@ endif()
 
 
 if(BUILD_EXAMPLES)
-  foreach(example IN ITEMS linear grasping waypoints joint_positions)
+  foreach(example IN ITEMS linear grasping waypoints joint_positions home)
     add_executable(${example} "examples/${example}.cpp")
     target_link_libraries(${example} PRIVATE frankx)
   endforeach()
