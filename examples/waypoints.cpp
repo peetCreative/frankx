@@ -18,8 +18,15 @@ std::shared_ptr<std::mutex> motionDataMutex {nullptr};
 
 void move()
 {
-    if (robot && waypointMotion && motionData)
-        robot->move(*waypointMotion, *motionData);
+    try {
+        if (robot && waypointMotion && motionData)
+            robot->move(*waypointMotion, *motionData);
+
+    }
+    catch (franka::CommandException exception) {
+        std::cout << "cannot move in this mode. Quit!" << std::endl;
+        std::this_thread::sleep_for (std::chrono::milliseconds (100));
+    }
 }
 
 int main(int argc, char *argv[]) {
