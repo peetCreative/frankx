@@ -78,16 +78,18 @@ int main(int argc, char *argv[]) {
         waypoint = movex::Waypoint (currentPose);
         waypointMotion->setNextWaypoint(waypoint);
         int i = 0;
-        while(i++ < 10)
+        do
         {
+            std::this_thread::sleep_for (std::chrono::milliseconds (100));
             Affine curAffine;
             {
                 const std::lock_guard<std::mutex> lock(*motionDataMutex);
                 curAffine = motionData->last_pose;
             }
             std::cout << curAffine.toString() << std::endl;
-            std::this_thread::sleep_for (std::chrono::milliseconds (100));
         }
+        while(/*i++ < 10 ||*/ motionData->is_moving);
+
     }
     return 0;
 }
