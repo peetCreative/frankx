@@ -14,6 +14,7 @@ struct MotionData {
     std::vector<Reaction> reactions {};
     std::shared_ptr<std::mutex> last_pose_lock {nullptr};
     Affine last_pose {};
+    bool is_moving {false};
 
     explicit MotionData(double dynamic_rel = 1.0): velocity_rel(dynamic_rel), acceleration_rel(dynamic_rel), jerk_rel(dynamic_rel) { }
 

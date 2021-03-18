@@ -135,6 +135,7 @@ struct WaypointMotionGenerator: public MotionGenerator {
                     old_vector = target_position_vector;
                     old_elbow = old_vector(6);
                 } else {
+                    data.is_moving = false;
                     return franka::MotionFinished(MotionGenerator::CartesianPose(input_para.current_position, waypoint_has_elbow));
                 }
             }
@@ -165,6 +166,7 @@ struct WaypointMotionGenerator: public MotionGenerator {
                         return MotionGenerator::CartesianPose(input_para.target_position, waypoint_has_elbow);
                     }
 
+                    data.is_moving = false;
                     return franka::MotionFinished(MotionGenerator::CartesianPose(input_para.target_position, waypoint_has_elbow));
 
                 } else if (motion.reload) {
@@ -176,6 +178,7 @@ struct WaypointMotionGenerator: public MotionGenerator {
                 }
 
                 if (has_new_waypoint) {
+                    data.is_moving = true;
                     const auto current_waypoint = *waypoint_iterator;
                     waypoint_has_elbow = current_waypoint.elbow.has_value();
                     auto target_position_vector = current_waypoint.getTargetVector(frame, old_affine, old_elbow);
@@ -189,9 +192,15 @@ struct WaypointMotionGenerator: public MotionGenerator {
                     old_vector = target_position_vector;
                     old_elbow = old_vector(6);
                 }
+                else
+                {
+                    // this control callback is not stopped beeing called but robot is not moving
+                    data.is_moving = false;
+                }
 
             } else if (result == ruckig::Result::Error) {
                 std::cout << "[frankx robot] Invalid inputs:" << std::endl;
+                data.is_moving = false;
                 return franka::MotionFinished(MotionGenerator::CartesianPose(input_para.current_position, waypoint_has_elbow));
             }
 

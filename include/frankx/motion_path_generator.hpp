@@ -68,10 +68,12 @@ struct PathMotionGenerator: public MotionGenerator {
         trajectory_index += steps;
         if (trajectory_index >= trajectory.states.size()) {
             s_current = trajectory.path.get_length();
+            data.is_moving = false;
             return franka::MotionFinished(CartesianPose(trajectory.path.q(s_current, frame), use_elbow));
         }
 
         s_current = trajectory.states[trajectory_index].s;
+        data.is_moving = true;
         return CartesianPose(trajectory.path.q(s_current, frame), use_elbow);
     }
 };

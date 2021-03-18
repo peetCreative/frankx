@@ -117,12 +117,14 @@ struct ImpedanceMotionGenerator: public MotionGenerator {
 #ifdef WITH_PYTHON
         if (robot->stop_at_python_signal && Py_IsInitialized() && PyErr_CheckSignals() == -1) {
             motion.is_active = false;
+            data.is_moving = false;
             return franka::MotionFinished(franka::Torques(tau_d_array));
         }
 #endif
 
         if (motion.should_finish) {
             motion.is_active = false;
+            data.is_moving = false;
             return franka::MotionFinished(franka::Torques(tau_d_array));
         }
 
@@ -161,6 +163,7 @@ struct ImpedanceMotionGenerator: public MotionGenerator {
             } break;
         }
 
+        data.is_moving = true;
         return franka::Torques(tau_d_array);
     }
 };

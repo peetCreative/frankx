@@ -71,10 +71,12 @@ struct JointMotionGenerator: public MotionGenerator {
 
             if (result == ruckig::Result::Finished) {
                 joint_positions = input_para.target_position;
+                data.is_moving = false;
                 return franka::MotionFinished(franka::JointPositions(joint_positions));
 
             } else if (result == ruckig::Result::Error) {
                 std::cout << "[frankx robot] Invalid inputs:" << std::endl;
+                data.is_moving = false;
                 return franka::MotionFinished(franka::JointPositions(joint_positions));
             }
 
@@ -83,6 +85,7 @@ struct JointMotionGenerator: public MotionGenerator {
             input_para.current_acceleration = output_para.new_acceleration;
         }
 
+        data.is_moving = true;
         return franka::JointPositions(joint_positions);
     }
 };
