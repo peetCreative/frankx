@@ -41,9 +41,10 @@ int main(int argc, char *argv[]) {
 
     // Reduce the acceleration and velocity dynamic
     robot->setDynamicRel(0.05);
+    robot->setDefaultBehavior();
 
     Affine currentPose = robot->currentPose();
-    currentPose.translate({0,0,0.01});
+    currentPose.translate({0,0,0});
     movex::Waypoint waypoint(currentPose);
     std::cout << currentPose.toString() << std::endl;
 
