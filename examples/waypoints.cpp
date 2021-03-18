@@ -60,6 +60,11 @@ int main(int argc, char *argv[]) {
     {
         std::cout << "Press for next Pose" << std::endl;
         std::cin >> q;
+        if (!moveThread.joinable())
+        {
+            std::cout << "move thread quite! Stopping." << std::endl;
+            break;
+        }
         std::cout << "pressed" << std::endl;
         if(q=="q")
             break;
@@ -99,5 +104,7 @@ int main(int argc, char *argv[]) {
         while(/*i++ < 10 ||*/ motionData->is_moving);
 
     }
+    if(moveThread.joinable())
+        moveThread.join();
     return 0;
 }
