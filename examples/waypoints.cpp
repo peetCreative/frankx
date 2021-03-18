@@ -68,25 +68,35 @@ int main(int argc, char *argv[]) {
         std::cout << "pressed" << std::endl;
         if(q=="q")
             break;
-        else if (q=="w")
+        else if (q=="d")
         {
-            std::cout << "up" << std::endl;
+            std::cout << "+x" << std::endl;
             currentPose.translate({0.05,0,0});
-        }
-        else if (q=="s")
-        {
-            std::cout << "down" << std::endl;
-            currentPose.translate({-0.05,0,0});
         }
         else if (q=="a")
         {
-            std::cout << "left" << std::endl;
+            std::cout << "-x" << std::endl;
+            currentPose.translate({-0.05,0,0});
+        }
+        else if (q=="w")
+        {
+            std::cout << "+y" << std::endl;
             currentPose.translate({0,0.05,0});
         }
-        else if (q=="d")
+        else if (q=="s")
         {
-            std::cout << "right" << std::endl;
+            std::cout << "-y" << std::endl;
             currentPose.translate({0,-0.05,0});
+        }
+        else if (q=="x")
+        {
+            std::cout << "+z" << std::endl;
+            currentPose.translate({0, 0, 0.05});
+        }
+        else if (q=="y")
+        {
+            std::cout << "-z" << std::endl;
+            currentPose.translate({0, 0,-0.05});
         }
         waypoint = movex::Waypoint (currentPose);
         waypointMotion->setNextWaypoint(waypoint);
